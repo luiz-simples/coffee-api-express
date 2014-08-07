@@ -4,10 +4,11 @@
   "author": "Luiz Amorim <luiz.simples@gmail.com>",
   "devDependencies": {
     "grunt": "~0.4.1",
-    "load-grunt-tasks": "~0.6.0",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-coffee": "~0.8.0",
-    "grunt-contrib-concat": "~0.3.0"
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "load-grunt-tasks": "~0.6.0"
   },
   "dependencies": {
     "express": "^4.8.2"
