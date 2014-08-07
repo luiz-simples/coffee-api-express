@@ -1,4 +1,6 @@
 coffee-api-express
 ==================
 
-CoffeeApiExpress
+Support to application CoffeeApiExpress
+
+"grunt serve": Build all files in scr/

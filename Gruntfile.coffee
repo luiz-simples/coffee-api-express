@@ -25,7 +25,7 @@ module.exports = (grunt) ->
 
   require('load-grunt-tasks') grunt
 
-  grunt.registerTask 'serve', [
+  grunt.registerTask 'build', [
     'clean:js'
     'concat:coffee'
     'coffee:script'
