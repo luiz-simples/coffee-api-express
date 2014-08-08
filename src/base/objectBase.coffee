@@ -1,3 +1,3 @@
 class ObjectBase
   className: ->
-    this.constructor.name
+    @constructor.name

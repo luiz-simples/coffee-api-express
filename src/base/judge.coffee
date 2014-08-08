@@ -1,12 +1,9 @@
-class Judge extends ObjectBase
-  check = null
-  actionTrue = null
-  actionFalse = null
-
+class Judge
   constructor: ->
-    check = arguments_[0]
-    actionTrue = arguments_[1]
-    actionFalse = arguments_[2]
+    @check = arguments[0]
+    @actionTrue = arguments[1]
+    @actionFalse = arguments[2]
+    ObjectBase.apply @, arguments
 
   verify: ->
-    if check then actionTrue() else actionFalse()
+    if @check then @actionTrue() else @actionFalse()

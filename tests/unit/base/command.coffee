@@ -1,24 +1,30 @@
 exports.CommandBase =
-  setup: (callback)->
-    @oneHit = 1
-    callback()
-    return
-
   "Should return yes when call method execute block": (test) ->
-    commandBase = new CommandBase ->
+    judge = new Judge true, ->
       true
+    , ->
+      false
 
-    test.expect @oneHit
+    commandBase = new CommandBase judge
+
+    oneHit = 1
+    test.expect oneHit
     test.ok commandBase.execute()
     test.done()
     return
 
   "Should return false when call method execute block": (test) ->
-    commandBase = new CommandBase ->
+    judgeNothing = new Judge false, ->
+      true
+    , ->
       false
 
+    commandBaseNothing = new CommandBase judgeNothing
+
     nothing = false
-    test.expect @oneHit
-    test.equal commandBase.execute(), nothing
+    oneHit = 1
+
+    test.expect oneHit
+    test.equal commandBaseNothing.execute(), nothing
     test.done()
     return

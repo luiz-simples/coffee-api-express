@@ -1,8 +1,7 @@
-class CommandBase extends ObjectBase
-  judge = null
-
+class CommandBase
   constructor: ->
-    judge = arguments_[0];
+    @judge = arguments[0];
+    ObjectBase.apply @, arguments
 
   execute: ->
-    judge.verify()
+    @judge.verify()

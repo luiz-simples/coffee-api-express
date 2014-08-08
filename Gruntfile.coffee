@@ -1,5 +1,12 @@
 module.exports = (grunt) ->
   grunt.initConfig
+    nodeunit:
+      all: [
+        'dist/test.js'
+      ]
+      options:
+        reporter: 'tap'
+
     uglify:
       dist:
         src: 'dist/server.js',
@@ -66,4 +73,5 @@ module.exports = (grunt) ->
     'concat:test'
     'coffee:test'
     'clean:test'
+    'nodeunit:all'
   ]
