@@ -1,16 +1,21 @@
 module.exports = (grunt) ->
   grunt.initConfig
+    uglify:
+      dist:
+        src: 'dist/server.js',
+        dest: 'dist/server.min.js'
+
     concat:
       src:
         src: './src/{,*/}*.coffee'
-        dest: './js/server.coffee'
+        dest: './dist/server.coffee'
 
       test:
         src: [
           './src/**/*.coffee'
           './tests/unit/**/*.coffee'
         ]
-        dest: './js/test.coffee'
+        dest: './dist/test.coffee'
 
     coffee:
       options:
@@ -18,28 +23,47 @@ module.exports = (grunt) ->
         sourceRoot: ''
 
       src:
-        src:  './js/server.coffee'
-        dest: './js/server.js'
+        src:  './dist/server.coffee'
+        dest: './dist/server.js'
 
       test:
-        src:  './js/test.coffee'
-        dest: './js/test.js'
+        src:  './dist/test.coffee'
+        dest: './dist/test.js'
 
     clean:
-      js: ['js']
+      dist: ['dist']
+      server: [
+        './dist/server.coffee'
+        './dist/test.coffee'
+        './dist/server.js'
+        './dist/test.js'
+        './dist/server.js.map'
+        './dist/test.js.map'
+      ]
+      test: [
+        './dist/server.coffee'
+        './dist/test.coffee'
+        './dist/server.js'
+        './dist/server.js.map'
+        './dist/test.js.map'
+      ]
 
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   require('load-grunt-tasks') grunt
 
   grunt.registerTask 'build', [
-    'clean:js'
+    'clean:dist'
     'concat:src'
     'coffee:src'
+    'uglify:dist'
+    'clean:server'
   ]
 
   grunt.registerTask 'test', [
-    'clean:js'
+    'clean:dist'
     'concat:test'
     'coffee:test'
+    'clean:test'
   ]
