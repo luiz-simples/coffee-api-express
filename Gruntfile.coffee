@@ -56,6 +56,8 @@ module.exports = (grunt) ->
       ]
 
     express:
+      options:
+        background: false
       dev:
         options:
           script: './dist/server.js'
