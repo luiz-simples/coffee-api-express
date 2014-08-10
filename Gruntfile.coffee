@@ -2,7 +2,13 @@ module.exports = (grunt) ->
   grunt.initConfig
     nodeunit:
       all: [
-        'dist/test.js'
+        'dist/test-all.js'
+      ]
+      unit: [
+        'dist/test-unit.js'
+      ]
+      integration: [
+        'dist/test-integration.js'
       ]
       options:
         reporter: 'tap'
@@ -17,12 +23,26 @@ module.exports = (grunt) ->
         src: './src/{,*/}*.coffee'
         dest: './dist/server.coffee'
 
-      test:
+      test_all:
+        src: [
+          './src/**/*.coffee'
+          './tests/**/*.coffee'
+        ]
+        dest: './dist/test-all.coffee'
+
+      test_unit:
         src: [
           './src/**/*.coffee'
           './tests/unit/**/*.coffee'
         ]
-        dest: './dist/test.coffee'
+        dest: './dist/test-unit.coffee'
+
+      test_integration:
+        src: [
+          './src/**/*.coffee'
+          './tests/integration/**/*.coffee'
+        ]
+        dest: './dist/test-integration.coffee'
 
     coffee:
       options:
@@ -33,27 +53,20 @@ module.exports = (grunt) ->
         src:  './dist/server.coffee'
         dest: './dist/server.js'
 
-      test:
-        src:  './dist/test.coffee'
-        dest: './dist/test.js'
+      test_all:
+        src:  './dist/test-all.coffee'
+        dest: './dist/test-all.js'
+
+      test_unit:
+        src:  './dist/test-unit.coffee'
+        dest: './dist/test-unit.js'
+
+      test_integration:
+        src:  './dist/test-integration.coffee'
+        dest: './dist/test-integration.js'
 
     clean:
       dist: ['dist']
-      server: [
-        './dist/server.coffee'
-        './dist/test.coffee'
-        './dist/server.js'
-        './dist/test.js'
-        './dist/server.js.map'
-        './dist/test.js.map'
-      ]
-      test: [
-        './dist/server.coffee'
-        './dist/test.coffee'
-        './dist/server.js'
-        './dist/server.js.map'
-        './dist/test.js.map'
-      ]
 
     express:
       options:
@@ -80,15 +93,31 @@ module.exports = (grunt) ->
     'concat:src'
     'coffee:src'
     'uglify:dist'
-    'clean:server'
   ]
 
   grunt.registerTask 'test', [
+    'test-integration'
+  ]
+
+  grunt.registerTask 'test-all', [
     'clean:dist'
-    'concat:test'
-    'coffee:test'
-    'clean:test'
+    'concat:test_all'
+    'coffee:test_all'
     'nodeunit:all'
+  ]
+
+  grunt.registerTask 'test-unit', [
+    'clean:dist'
+    'concat:test_unit'
+    'coffee:test_unit'
+    'nodeunit:unit'
+  ]
+
+  grunt.registerTask 'test-integration', [
+    'clean:dist'
+    'concat:test_integration'
+    'coffee:test_integration'
+    'nodeunit:integration'
   ]
 
   grunt.registerTask 'default', [
