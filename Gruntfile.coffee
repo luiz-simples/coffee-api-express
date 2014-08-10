@@ -55,8 +55,21 @@ module.exports = (grunt) ->
         './dist/test.js.map'
       ]
 
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+    express:
+      dev:
+        options:
+          script: './dist/server.js'
+      prod:
+        options:
+          script: './dist/server.min.js'
+          node_env: 'production'
+      test:
+        options:
+          script: './dist/test.js'
+
+  grunt.loadNpmTasks 'grunt-contrib-nodeunit'
+  grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-express-server'
 
   require('load-grunt-tasks') grunt
 
@@ -75,3 +88,11 @@ module.exports = (grunt) ->
     'clean:test'
     'nodeunit:all'
   ]
+
+  grunt.registerTask 'default', [
+    'clean:dist'
+    'concat:src'
+    'coffee:src'
+    'express:dev'
+  ]
+
