@@ -25,21 +25,24 @@ module.exports = (grunt) ->
 
       test_all:
         src: [
-          './src/**/*.coffee'
+          './src/requests.coffee'
+          './src/*/**/*.coffee'
           './tests/**/*.coffee'
         ]
         dest: './dist/test-all.coffee'
 
       test_unit:
         src: [
-          './src/**/*.coffee'
+          './src/requests.coffee'
+          './src/*/**/*.coffee'
           './tests/unit/**/*.coffee'
         ]
         dest: './dist/test-unit.coffee'
 
       test_integration:
         src: [
-          './src/**/*.coffee'
+          './src/requests.coffee'
+          './src/*/**/*.coffee'
           './tests/integration/**/*.coffee'
         ]
         dest: './dist/test-integration.coffee'
