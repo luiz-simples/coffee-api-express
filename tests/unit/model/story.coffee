@@ -7,20 +7,19 @@ exports.Story =
       test.ok !err
       test.done()
       return
+    return
 
   "should count": (test) ->
-    cleaner = databaseCleaner.clean mongoose.connections[0].db
-    story = new Story
-    story.title = "big bang"
-    promise = story.find().exec()
-    test.expect 2
-
-    promise.then (obj) ->
-      Story.count (err, count) ->
-        test.ok !err
-        test.equal count, 1
-        test.done()
+    databaseCleaner.clean mongoose.connections[0].db, () ->
+      story = new Story
+      story.title = "big bang"
+      test.expect 2
+      promise = story.save (err) ->
+        Story.count (err, count) ->
+          test.ok !err
+          test.equal count, 1
+          test.done()
+          return
         return
       return
     return
-    
