@@ -1,17 +1,19 @@
 module.exports = (grunt) ->
   grunt.initConfig
-    nodeunit:
-      all: [
-        'dist/test-all.js'
-      ]
-      unit: [
-        'dist/test-unit.js'
-      ]
-      integration: [
-        'dist/test-integration.js'
-      ]
-      options:
-        reporter: 'tap'
+    mochaTest:
+      all:
+        options:
+          reporter: 'spec'
+        src: 'dist/test-all.js'
+      unit:
+        options:
+          reporter: 'spec'
+        src: 'dist/test-unit.js'
+      
+      integration:
+        options:
+          reporter: 'spec'
+        src: 'dist/test-integration.js'
 
     uglify:
       dist:
@@ -20,29 +22,44 @@ module.exports = (grunt) ->
 
     concat:
       src:
-        src: './src/{,*/}*.coffee'
+        src: [
+          './src/env.coffee'
+          './src/env/<%= node_env %>/**/*.coffee'
+          './src/init/**/*.coffee'
+          './src/model/**/*.coffee'
+          './src/server.coffee'
+        ]
         dest: './dist/server.coffee'
 
       test_all:
         src: [
-          './src/requests.coffee'
-          './src/*/**/*.coffee'
-          './tests/**/*.coffee'
+          './tests/all.coffee'
+          './src/env.coffee'
+          './src/env/<%= node_env %>/**/*.coffee'
+          './src/init/**/*.coffee'
+          './src/model/**/*.coffee'
+          './tests/*/**/*.coffee'
         ]
         dest: './dist/test-all.coffee'
 
       test_unit:
         src: [
-          './src/requests.coffee'
-          './src/*/**/*.coffee'
+          './tests/unit.coffee'
+          './src/env.coffee'
+          './src/env/<%= node_env %>/**/*.coffee'
+          './src/init/**/*.coffee'
+          './src/model/**/*.coffee'
           './tests/unit/**/*.coffee'
         ]
         dest: './dist/test-unit.coffee'
 
       test_integration:
         src: [
-          './src/requests.coffee'
-          './src/*/**/*.coffee'
+          './tests/integration.coffee'
+          './src/env.coffee'
+          './src/env/<%= node_env %>/**/*.coffee'
+          './src/init/**/*.coffee'
+          './src/model/**/*.coffee'
           './tests/integration/**/*.coffee'
         ]
         dest: './dist/test-integration.coffee'
@@ -85,13 +102,25 @@ module.exports = (grunt) ->
         options:
           script: './dist/test.js'
 
-  grunt.loadNpmTasks 'grunt-contrib-nodeunit'
+    env:
+      development:
+        NODE_ENV: process.env.NODE_ENV || 'development'
+      production:
+        NODE_ENV: process.env.NODE_ENV || 'production'
+      test:
+        NODE_ENV: process.env.NODE_ENV || 'test'
+  node_env: "<%= env.development.NODE_ENV %><%= env.production.NODE_ENV %><%= env.test.NODE_ENV %>"
+
+
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-express-server'
+  grunt.loadNpmTasks 'grunt-mocha-test'
+  grunt.loadNpmTasks 'grunt-env'
 
   require('load-grunt-tasks') grunt
 
   grunt.registerTask 'build', [
+    'env:production'
     'clean:dist'
     'concat:src'
     'coffee:src'
@@ -103,30 +132,33 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask 'test-all', [
+    'env:test'
     'clean:dist'
     'concat:test_all'
     'coffee:test_all'
-    'nodeunit:all'
+    'mochaTest:all'
   ]
 
   grunt.registerTask 'test-unit', [
+    'env:test'
     'clean:dist'
     'concat:test_unit'
     'coffee:test_unit'
-    'nodeunit:unit'
+    'mochaTest:unit'
   ]
 
   grunt.registerTask 'test-integration', [
+    'env:test'
     'clean:dist'
     'concat:test_integration'
     'coffee:test_integration'
-    'nodeunit:integration'
+    'mochaTest:integration'
   ]
 
   grunt.registerTask 'default', [
+    'env:development'
     'clean:dist'
     'concat:src'
     'coffee:src'
     'express:dev'
   ]
-

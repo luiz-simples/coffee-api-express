@@ -1,8 +1,8 @@
 mongoose = require 'mongoose'
-mongoose.connect 'mongodb://localhost/expressapi_test'
+mongoose.connect SampleApi.options.database.url
 
 db = mongoose.connection
 db.on "error", console.error.bind(console, "connection error:")
-db.once "open", callback = ->
+db.once "open", ->
   console.log "Yeah, connection opened"
   return
