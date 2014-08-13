@@ -27,6 +27,8 @@ module.exports = (grunt) ->
           './src/env/<%= node_env %>/**/*.coffee'
           './src/init/**/*.coffee'
           './src/model/**/*.coffee'
+          './src/controller/**/*.coffee'
+          './src/routes/**/*.coffee'
           './src/server.coffee'
         ]
         dest: './dist/server.coffee'
@@ -38,6 +40,8 @@ module.exports = (grunt) ->
           './src/env/<%= node_env %>/**/*.coffee'
           './src/init/**/*.coffee'
           './src/model/**/*.coffee'
+          './src/controller/**/*.coffee'
+          './src/routes/**/*.coffee'
           './tests/*/**/*.coffee'
         ]
         dest: './dist/test-all.coffee'
@@ -49,6 +53,8 @@ module.exports = (grunt) ->
           './src/env/<%= node_env %>/**/*.coffee'
           './src/init/**/*.coffee'
           './src/model/**/*.coffee'
+          './src/controller/**/*.coffee'
+          './src/routes/**/*.coffee'
           './tests/unit/**/*.coffee'
         ]
         dest: './dist/test-unit.coffee'
@@ -60,6 +66,8 @@ module.exports = (grunt) ->
           './src/env/<%= node_env %>/**/*.coffee'
           './src/init/**/*.coffee'
           './src/model/**/*.coffee'
+          './src/controller/**/*.coffee'
+          './src/routes/**/*.coffee'
           './tests/integration/**/*.coffee'
         ]
         dest: './dist/test-integration.coffee'
